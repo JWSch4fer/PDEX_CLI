@@ -1,18 +1,16 @@
 package main
 
-import (
-	"PDEX_CLI/internal/pokeapi"
-	"fmt"
-	"log"
-)
+import "PDEX_CLI/internal/pokeapi"
+
+type config struct {
+	pokeapiClient           pokeapi.Client
+	nextLocationAreaURL     *string
+	previousLocationAreaURL *string
+}
 
 func main() {
-	pokeapiClient := pokeapi.NewClient()
-	resp, err := pokeapiClient.ListLocationAreas()
-	if err != nil {
-		log.Fatal(err)
+	cfg := config{
+		pokeapiClient: pokeapi.NewClient(),
 	}
-	fmt.Println(resp)
-
-	// StartREPL()
+	StartREPL(&cfg)
 }
