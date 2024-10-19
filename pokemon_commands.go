@@ -18,9 +18,10 @@ func CallBackCatch(cfg *config, args ...string) error {
 		return err
 	}
 
-	const threshold = 75
+	//probability of catching will be 50%
+	threshold := 0.5 * float32(pokemon_data.BaseExperience)
 	randNum := rand.Intn(pokemon_data.BaseExperience)
-	if randNum < threshold {
+	if randNum < int(threshold) {
 		return fmt.Errorf("FAILED TO CATCH %s", pokemonName)
 	}
 	fmt.Printf("%s WAS CAPTURED >_< \n", pokemonName)

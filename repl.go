@@ -60,39 +60,44 @@ type cli_commands struct {
 func GetCLICommands() map[string]cli_commands {
 	return map[string]cli_commands{
 		"help": {
-			name:        "help   ",
+			name:        "help                 ",
 			description: "print the available commands",
 			callback:    CallBackHelp,
 		},
 		"exit": {
-			name:        "exit   ",
+			name:        "exit                 ",
 			description: "shut down the Pokedex",
 			callback:    CallBackExit,
 		},
 		"map": {
-			name:        "map    ",
+			name:        "map                  ",
 			description: "Show 20 available locations",
 			callback:    CallBackMap,
 		},
 		"mapb": {
-			name:        "mapb   ",
+			name:        "mapb                 ",
 			description: "Show previous 20 locations",
 			callback:    CallBackMapb,
 		},
 		"explore": {
-			name:        "explore",
-			description: "show all pokemon encounters in this area {area_name}",
+			name:        "explore {area_name}  ",
+			description: "show all pokemon encounters in this area",
 			callback:    CallBackExplore,
 		},
 		"catch": {
-			name:        "catch  ",
-			description: "try to catch a pokemon {pokemon_name}",
+			name:        "catch {pokemon_name}  ",
+			description: "try to catch a pokemon",
 			callback:    CallBackCatch,
 		},
 		"inspect": {
-			name:        "inspect",
-			description: "inspect pokemon within you've caught",
+			name:        "inspect {pokemon_name}",
+			description: "inspect pokemon you've caught",
 			callback:    CallBackInspect,
+		},
+		"pokedex": {
+			name:        "pokedex               ",
+			description: "inspect all pokemon you've caught",
+			callback:    CallBackPokedex,
 		},
 	}
 }
