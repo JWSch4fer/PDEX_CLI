@@ -1,9 +1,14 @@
 package pokecache
 
-import "time"
+import (
+	"sync"
+	"time"
+)
 
 type Cache struct {
+	// ensure the map is thread safe
 	cache map[string]CacheEntry
+	mux   *sync.Mutex
 }
 
 type CacheEntry struct {
@@ -14,6 +19,7 @@ type CacheEntry struct {
 func NewCache(interval time.Duration) Cache {
 	c := Cache{
 		cache: make(map[string]CacheEntry),
+		mux:   &sync.Mutex{},
 	}
 	// this cannot be on the main thread
 	// this will never exit so nothing else would ever happen
@@ -22,6 +28,8 @@ func NewCache(interval time.Duration) Cache {
 }
 
 func (c *Cache) Add(key string, val []byte) {
+	c.mux.Lock()
+	defer c.mux.Unlock()
 	c.cache[key] = CacheEntry{
 		val:       val,
 		createdat: time.Now().UTC(),
@@ -29,6 +37,8 @@ func (c *Cache) Add(key string, val []byte) {
 }
 
 func (c *Cache) Get(key string) ([]byte, bool) {
+	c.mux.Lock()
+	defer c.mux.Unlock()
 	ce, ok := c.cache[key]
 	return ce.val, ok
 }
@@ -41,6 +51,8 @@ func (c *Cache) ReapLoop(interval time.Duration) {
 
 }
 func (c *Cache) Reap(interval time.Duration) {
+	c.mux.Lock()
+	defer c.mux.Unlock()
 	minutesAgo := time.Now().UTC().Add(-interval)
 	for k, v := range c.cache {
 		if v.createdat.Before(minutesAgo) {

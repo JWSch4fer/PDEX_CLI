@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func CallBackHelp(cfg *config) error {
+func CallBackHelp(cfg *config, args ...string) error {
 	fmt.Println("Pokedex command line interface options:")
 	fmt.Println("")
 	for _, cmd := range GetCLICommands() {
@@ -15,7 +15,7 @@ func CallBackHelp(cfg *config) error {
 	return nil
 }
 
-func CallBackExit(cfg *config) error {
+func CallBackExit(cfg *config, args ...string) error {
 	os.Exit(0)
 	return nil
 }

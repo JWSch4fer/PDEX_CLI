@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func CallBackMap(cfg *config) error {
+func CallBackMap(cfg *config, args ...string) error {
 	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextLocationAreaURL)
 	if err != nil {
 		return err
@@ -21,7 +21,7 @@ func CallBackMap(cfg *config) error {
 	return err
 }
 
-func CallBackMapb(cfg *config) error {
+func CallBackMapb(cfg *config, args ...string) error {
 	if cfg.previousLocationAreaURL == nil {
 		return errors.New("This is the first page...")
 	}
@@ -36,6 +36,25 @@ func CallBackMapb(cfg *config) error {
 
 	cfg.nextLocationAreaURL = resp.Next
 	cfg.previousLocationAreaURL = resp.Previous
+
+	return err
+}
+
+func CallBackExplore(cfg *config, args ...string) error {
+
+	if len(args) != 1 {
+		return errors.New("no location provided")
+	}
+	locationAreaName := args[0]
+
+	locationArea, err := cfg.pokeapiClient.GetLocationArea(locationAreaName)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("Pokemon in %s\n", locationArea.Name)
+	for _, pokemon := range locationArea.PokemonEncounters {
+		fmt.Printf("Name: %s\n", pokemon.Pokemon.Name)
+	}
 
 	return err
 }

@@ -17,7 +17,61 @@ type LocationAreasResponse struct {
 	} `json:"results"`
 }
 
-type PokemonInLocation struct {
+func (c *Client) ListLocationAreas(pageURL *string) (LocationAreasResponse, error) {
+	endpoint := "/location-area"
+	fullURL := baseURL + endpoint
+
+	// this is to use next and previous
+	if pageURL != nil {
+		fullURL = *pageURL
+	}
+
+	//check if data is in the cache
+	data, ok := c.cache.Get(fullURL)
+	if !ok {
+		fmt.Println("Cache miss -_-")
+
+		req, err := http.NewRequest("GET", fullURL, nil)
+		if err != nil {
+			return LocationAreasResponse{}, err
+		}
+
+		resp, err := c.httpclient.Do(req)
+		if err != nil {
+			return LocationAreasResponse{}, err
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode > 399 {
+			return LocationAreasResponse{}, fmt.Errorf("Bad status code: %v", resp.StatusCode)
+		}
+
+		data, err := io.ReadAll(resp.Body)
+		c.cache.Add(fullURL, data)
+		if err != nil {
+			return LocationAreasResponse{}, err
+		}
+		locationAreasResp := LocationAreasResponse{}
+		err = json.Unmarshal(data, &locationAreasResp)
+		if err != nil {
+			return LocationAreasResponse{}, err
+		}
+		return locationAreasResp, nil
+
+	} else {
+		//data was stored in the cache!!!
+		fmt.Println("Cache hit ^_^")
+		locationAreasResp := LocationAreasResponse{}
+		err := json.Unmarshal(data, &locationAreasResp)
+		if err != nil {
+			return LocationAreasResponse{}, err
+		}
+		return locationAreasResp, nil
+
+	}
+}
+
+type LocationArea struct {
 	EncounterMethodRates []struct {
 		EncounterMethod struct {
 			Name string `json:"name"`
@@ -70,14 +124,9 @@ type PokemonInLocation struct {
 	} `json:"pokemon_encounters"`
 }
 
-func (c *Client) ListLocationAreas(pageURL *string) (LocationAreasResponse, error) {
-	endpoint := "/location-area"
+func (c *Client) GetLocationArea(locationAreaName string) (LocationArea, error) {
+	endpoint := "/location-area/" + locationAreaName
 	fullURL := baseURL + endpoint
-
-	// this is to use next and previous
-	if pageURL != nil {
-		fullURL = *pageURL
-	}
 
 	//check if data is in the cache
 	data, ok := c.cache.Get(fullURL)
@@ -86,40 +135,40 @@ func (c *Client) ListLocationAreas(pageURL *string) (LocationAreasResponse, erro
 
 		req, err := http.NewRequest("GET", fullURL, nil)
 		if err != nil {
-			return LocationAreasResponse{}, err
+			return LocationArea{}, err
 		}
 
 		resp, err := c.httpclient.Do(req)
 		if err != nil {
-			return LocationAreasResponse{}, err
+			return LocationArea{}, err
 		}
 		defer resp.Body.Close()
 
 		if resp.StatusCode > 399 {
-			return LocationAreasResponse{}, fmt.Errorf("Bad status code: %v", resp.StatusCode)
+			return LocationArea{}, fmt.Errorf("Bad status code: %v", resp.StatusCode)
 		}
 
 		data, err := io.ReadAll(resp.Body)
 		c.cache.Add(fullURL, data)
 		if err != nil {
-			return LocationAreasResponse{}, err
+			return LocationArea{}, err
 		}
-		locationAreasResp := LocationAreasResponse{}
-		err = json.Unmarshal(data, &locationAreasResp)
+		locationArea := LocationArea{}
+		err = json.Unmarshal(data, &locationArea)
 		if err != nil {
-			return LocationAreasResponse{}, err
+			return LocationArea{}, err
 		}
-		return locationAreasResp, nil
+		return locationArea, nil
 
 	} else {
 		//data was stored in the cache!!!
 		fmt.Println("Cache hit ^_^")
-		locationAreasResp := LocationAreasResponse{}
-		err := json.Unmarshal(data, &locationAreasResp)
+		locationArea := LocationArea{}
+		err := json.Unmarshal(data, &locationArea)
 		if err != nil {
-			return LocationAreasResponse{}, err
+			return LocationArea{}, err
 		}
-		return locationAreasResp, nil
+		return locationArea, nil
 
 	}
 }
