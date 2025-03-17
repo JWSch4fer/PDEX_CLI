@@ -4,8 +4,23 @@ Interact with the PokeAPI to explore the world and catch pokemon
 
 <img alt="demo of PDEX_CLI" src="https://github.com/JWSch4fer/PDEX_CLI/blob/main/demo/demo.gif" width="600" />
 
-## Install
-To install the PDEX_CLI copy the repo then
+## Usage
+Commands available for exploring and catching pokemon
+```sh
+Pokedex command line interface options:
+
+map                    | Show 20 available locations
+mapb                   | Show previous 20 locations
+explore {area_name}    | show all pokemon encounters in this area
+catch {pokemon_name}    | try to catch a pokemon
+inspect {pokemon_name}  | inspect pokemon you've caught
+pokedex                 | inspect all pokemon you've caught
+help                   | print the available commands
+exit                   | shut down the Pokedex
+```
+
+## Installation
+copy the repo then compile with
 ```sh
 go build
 ```
