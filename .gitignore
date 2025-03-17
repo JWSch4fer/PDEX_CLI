@@ -24,3 +24,7 @@ go.work.sum
 
 # env file
 .env
+
+#charmmbraclet/vhs
+create_gif.tape
+
