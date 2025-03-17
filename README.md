@@ -8,6 +8,7 @@ Interact with the PokeAPI to explore the world and catch pokemon
 Commands available for exploring and catching pokemon
 
 <details> <summary>Fenced code block (plain text style)</summary>
+```
 Pokedex command line interface options:
 
 map                    | Show 20 available locations
@@ -18,6 +19,7 @@ inspect {pokemon_name}  | inspect pokemon you\'ve caught
 pokedex                 | inspect all pokemon you\'ve caught
 help                   | print the available commands
 exit                   | shut down the Pokedex
+```
 </details>
 
 ## Installation
