@@ -7,20 +7,18 @@ Interact with the PokeAPI to explore the world and catch pokemon
 ## Usage
 Commands available for exploring and catching pokemon
 
-<details> <summary>Fenced code block (plain text style)</summary>
-```
+```sh
 Pokedex command line interface options:
 
-map                    | Show 20 available locations
-mapb                   | Show previous 20 locations
-explore {area_name}    | show all pokemon encounters in this area
+map                     | Show 20 available locations
+mapb                    | Show previous 20 locations
+explore {area_name}     | show all pokemon encounters in this area
 catch {pokemon_name}    | try to catch a pokemon
-inspect {pokemon_name}  | inspect pokemon you\'ve caught
-pokedex                 | inspect all pokemon you\'ve caught
-help                   | print the available commands
-exit                   | shut down the Pokedex
+inspect {pokemon_name}  | inspect pokemon you've caught
+pokedex                 | inspect all pokemon you've caught
+help                    | print the available commands
+exit                    | shut down the Pokedex
 ```
-</details>
 
 ## Installation
 copy the repo then compile with
