@@ -7,9 +7,16 @@ import (
 	"strings"
 )
 
-func StartREPL(cfg *config) {
+func StartREPL(cfg *config, show_list_of_commands bool) {
 	for {
+
 		fmt.Println("Hello, please type something...")
+		AvailableCommands := GetCLICommands()
+
+		if show_list_of_commands {
+			AvailableCommands["help"].callback(cfg, "")
+			show_list_of_commands = false
+		}
 		scanner := bufio.NewScanner(os.Stdin)
 		scanner.Scan()
 
@@ -27,8 +34,6 @@ func StartREPL(cfg *config) {
 		if len(clean_text) > 1 {
 			args = clean_text[1:]
 		}
-
-		AvailableCommands := GetCLICommands()
 
 		command, ok := AvailableCommands[InputCommand]
 		if ok == false {
