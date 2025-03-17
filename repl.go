@@ -9,8 +9,9 @@ import (
 
 func StartREPL(cfg *config, show_list_of_commands bool) {
 	for {
-
+		fmt.Println("==================================================================================")
 		fmt.Println("Hello, please type something...")
+		fmt.Println("==================================================================================")
 		AvailableCommands := GetCLICommands()
 
 		if show_list_of_commands {
