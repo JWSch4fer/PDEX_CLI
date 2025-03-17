@@ -7,7 +7,7 @@ Interact with the PokeAPI to explore the world and catch pokemon
 ## Usage
 Commands available for exploring and catching pokemon
 
-```sh
+```
 Pokedex command line interface options:
 
 map                     | Show 20 available locations
